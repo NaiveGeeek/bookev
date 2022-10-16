@@ -5,7 +5,7 @@ export const SHOW_LOCATION = "show_location";
 export const AVAILABLE = "availability";
 
 export const makeApiCall = async (path="",data={},methodType="GET", isAiCall = true)=>{
-    const url= isAiCall?`https://52.20.176.178:5005/model/parse`:`https://chatbot-runtime-terror.herokuapp.com${path}`;
+    const url= isAiCall?`http://52.20.176.178:5005/model/parse`:`https://chatbot-runtime-terror.herokuapp.com${path}`;
     const response = await fetch(url, {
         method: methodType, // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
