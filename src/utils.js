@@ -5,7 +5,7 @@ export const SHOW_LOCATION = "show_location";
 export const AVAILABLE = "availability";
 
 export const makeApiCall = async (path="",data={},methodType="GET", isAiCall = true)=>{
-    const url= isAiCall?`http://52.20.176.178:5005/model/parse`:`https://chatbot-runtime-terror.herokuapp.com${path}`;
+    const url= isAiCall?`https://52.20.176.178:5005/model/parse`:`https://chatbot-runtime-terror.herokuapp.com${path}`;
     const response = await fetch(url, {
         method: methodType, // *GET, POST, PUT, DELETE, etc.
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -24,7 +24,11 @@ export const typeOfIntent = (intentObject={})=>{
    const intent = intentObject?.intent?.name || '';
    switch(intent){
      case START_RENT:{
-        return {isAPICall:false,api:'',method:'',value:"for which dates?"};
+        const {from='',to=''}  = intentObject?.entities[0]?.value || {};
+        if(from && to){
+         return {isAPICall:true,api:'/book',method:'POST',value:"",data:{date:{from:from.split('T')[0],to:to.split('T')[0]}}};
+        }else{
+        return {isAPICall:false,api:'',method:'',value:"for which dates?"};}
      }
      case PRICE_INFO:{
         return {isAPICall:false,api:'',method:'',value:'$ 20/day'};
