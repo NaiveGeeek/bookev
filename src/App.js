@@ -18,8 +18,12 @@ function App() {
          const response = await makeApiCall('',{text:message},'POST',true);
          console.log(response);
          const intent = typeOfIntent(response);
+         console.log(intent);
          if(intent.isAPICall){
-
+             const res = await makeApiCall(intent.api,intent.data,intent.method,false);
+            setIsWaiting(false);
+            if(res?.message){
+            updateMesaages((prevState)=>[...prevState,{user:'bot',message:res.message}]);}
          }else{
           setIsWaiting(false);
           updateMesaages((prevState)=>[...prevState,{user:'bot',message:intent.value}]);
